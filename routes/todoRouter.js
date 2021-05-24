@@ -4,7 +4,7 @@ const todoRouter = express.Router();
 
 todoRouter.post('/create', todoController.createTodo);
 todoRouter.get('/get', todoController.getTodo);
-//todoRouter.patch('/update', todoController.updateTodo);
-//todoRouter.delete('/delete', todoController.deleteTodo);
+todoRouter.patch('/update', todoController.updateTodo);
+todoRouter.delete('/delete', todoController.deleteTodo);
 
 module.exports = todoRouter;

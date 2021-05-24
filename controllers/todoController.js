@@ -27,5 +27,34 @@ exports.createTodo = async function(req, res){
     todo.save(function(err){
         if(err) return console.log(err);
         res.send('Saved');
-    })
+    });
+};
+
+exports.deleteTodo = async function(req, res){
+    if(req.query.id){
+        Todo.deleteOne({_id: req.query.id}, function(err){
+            if(err) return console.log(err);
+            res.send('Deleted');
+        });
+    }
+    else{
+        Todo.deleteMany({}, function(err){
+            if(err) return console.log(err);
+            res.send('Deleted');
+        });
+    }
+};
+
+exports.updateTodo = async function(req, res){
+    const _title = req.query.title;
+    const _description = req.query.description;
+    const _isCompleted = req.query.isCompleted;
+
+    if(req.query.id){
+        Todo.updateOne({_id: req.query.id}, {title: _title, description: _description, isCompleted: _isCompleted},
+        function(err){
+            if(err) return console.log(err);
+            res.send('Updated');
+        });
+    }
 };

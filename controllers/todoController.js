@@ -1,77 +1,70 @@
-const Todo = require('../models/todo');
-const throwError = require("../middlewares/utils/utils")
+// const { asyncHandler } = require('../middlewares/middlewares');
+const ToDo = require('../database/models/ToDo');
+//const throwError = require("../middlewares/utils/utils")
 
-exports.getTodo = async function(req, res){
-    if(req.query.id){
-        await Todo.findOne({_id: req.query.id}, function(err, todo){
-            if(err){
-                console.log(err);
-                res.status(500).send('Find error'); 
-            };
-            res.send(todo);
-        });
-    }
-    else{
-        await Todo.find({}, function(err, todos){
-            if(err){
-                console.log(err);
-                res.status(500).send('Find error');
-            };
-            res.send(todos);
-        });
-    }
-};
-
-exports.createTodo = async function(req, res){
-    const _title = req.query.title;
-    const _description = req.query.description;
-    const _isCompleted = req.query.isCompleted;
-
-    const todo = new Todo({title: _title, description: _description, isCompleted: _isCompleted});
-
-    await todo.save(function(err){
-        if(err){
+exports.getToDoID = async function (req, res) {
+    await ToDo.findByPk({ _id: req.params.id }, function (err, todo) {
+        if (err) {
             console.log(err);
-            res.status(500).send('Save error');
+            res.status(500).json({ message: 'Find error'});
         };
-        res.send('Saved');
+        res.send(todo);
     });
 };
 
-exports.deleteTodo = async function(req, res){
-    if(req.query.id){
-        Todo.deleteOne({_id: req.query.id}, function(err){
-            if(err){
-                console.log(err);
-                res.status(500).send('Delete error');
-            };
-            res.send('Deleted');
-        });
-    }
-    else{
-        await Todo.deleteMany({}, function(err){
-            if(err){
-                console.log(err);
-                res.status(500).send('Delete error');
-            };
-            res.send('Deleted');
-        });
-    }
-};
+// exports.getTodos = async function (req, res) {
+//     await ToDo.findAll({}, function (err, todos) {
+//         if (err) {
+//             console.log(err);
+//             res.status(500).json({ message: 'Find error'});
+//         };
+//         res.send(todos);
+//     });
+// };
 
-exports.updateTodo = async function(req, res){
-    const _title = req.query.title;
-    const _description = req.query.description;
-    const _isCompleted = req.query.isCompleted;
+// exports.createTodo = async function (req, res) {
+//     const _title = req.body.title;
+//     const _description = req.body.description;
+//     const _isCompleted = req.body.isCompleted;
 
-    if(req.query.id){
-        await Todo.updateOne({_id: req.query.id}, {title: _title, description: _description, isCompleted: _isCompleted},
-        function(err){
-            if(err){
-                console.log(err);
-                res.status(500).send('Update error');
-            };
-            res.send('Updated');
-        });
-    }
-};
+//     const todo = new ToDo({ title: _title, description: _description, isCompleted: _isCompleted });
+
+//     await todo.save(function (err) {
+//         if (err) {
+//             console.log(err);
+//             res.status(500).send('Save error');
+//         };
+//         res.status(200).json({message: 'Saved'});
+//     });
+// };
+
+// exports.deleteTodoID = async function (req, res) {
+//     await ToDo.deleteOne({ _id: req.params.id }, function (err) {
+//         if (err) {
+//             console.log(err);
+//             res.status(500).send('Delete error');
+//         };
+//         res.status(200).json({message: 'Deleted'});
+//     })
+// }
+
+// exports.deleteTodos = async function (req, res) {
+
+//     await ToDo.deleteMany({}, function (err) {
+//         if (err) {
+//             console.log(err);
+//             res.status(500).send('Delete error');
+//         };
+//         res.status(200).json({message: 'Deleted'});
+//     });
+// };
+
+// exports.updateTodo = async function (req, res) {
+//     const _title = req.body.title;
+//     const _description = req.body.description;
+//     const _isCompleted = req.body.isCompleted;
+
+//     await ToDo.update({ _id: req.params.id }, { title: _title, description: _description, isCompleted: _isCompleted });
+//     const todo = await Todo.findOne({ _id: req.params.id});
+//     res.status(200).send(todo);
+// };

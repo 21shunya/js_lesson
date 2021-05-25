@@ -8,7 +8,6 @@ const logger = (request, response, next) => {
     next();
 }
  
-
 const syncHandler = (fn) => (req,res,next) => {
     try{
         fn(req,res,next);
@@ -20,7 +19,6 @@ const syncHandler = (fn) => (req,res,next) => {
 const asyncHandler = (fn) => (req, res, next) => {
     Promise.resolve(fn(req, res, next)).catch(next);
 };
-
 
 const errorHandler = (e,request,res,_) => {
     let code = 500;
@@ -34,8 +32,6 @@ const errorHandler = (e,request,res,_) => {
         message: e.message
     });
 };
-
-
 
 module.exports = {
     asyncHandler,

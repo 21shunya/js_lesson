@@ -1,15 +1,10 @@
 const Sequelize = require('sequelize');
-const { sequelize } = require('..');
+const sequelize = new Sequelize('sqlite::memory:');
 
 class ToDo extends Sequelize.Model {}
 
 ToDo.init(
     {
-        id: {
-            type: Sequelize.DataTypes.UUID,
-            primaryKey: true,
-            defaultValue: Sequelize.DataTypes.UUIDV4
-        },
         title: {
             type: Sequelize.STRING,
             defaultValue: 'Title',
@@ -25,5 +20,7 @@ ToDo.init(
     },
     { sequelize: sequelize, underscored: true, modelName: 'todo' }
 );
+
+ToDo.sync();
 
 module.exports = ToDo;
